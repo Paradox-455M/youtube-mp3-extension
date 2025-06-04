@@ -1,0 +1,19 @@
+{
+  "name": "youtube-mp3-backend",
+  "version": "1.0.0",
+  "description": "Backend for YouTube to MP3 converter extension",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "yt-dlp-wrap": "^2.3.12",
+    "ytdl-core": "^4.11.4"
+  }
+}

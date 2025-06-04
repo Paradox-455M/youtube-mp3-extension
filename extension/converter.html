@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube to MP3 Downloader</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            width: 300px;
+            height: 400px;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            overflow: hidden;
+            position: fixed;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            -webkit-app-region: drag; /* Makes title bar draggable */
+        }
+
+        .close-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background: transparent;
+            color: #999;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            -webkit-app-region: no-drag;
+            opacity: 0.7;
+            padding: 0;
+        }
+
+        .close-button .material-icons {
+            font-size: 18px;
+        }
+
+        .close-button:hover {
+            color: #ff6b6b;
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* ... rest of your existing styles ... */
+    </style>
+</head>
+<body>
+    <!-- Same content as your popup.html -->
+    <div class="container">
+        <button id="closeBtn" class="close-button">
+            <span class="material-icons">close</span>
+        </button>
+        <div class="title">YouTube Converter</div>
+        <input type="text" id="urlInput" placeholder="Paste YouTube URL here">
+        <button id="convertBtn" disabled>Convert to MP3</button>
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+        <div id="statusContainer" class="status-container">
+            <span id="status"></span>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html> 
