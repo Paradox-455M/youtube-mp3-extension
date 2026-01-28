@@ -4,7 +4,10 @@
   "description": "Backend for YouTube to MP3 converter extension",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +16,12 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "yt-dlp-wrap": "^2.3.12",
-    "ytdl-core": "^4.11.4"
+    "express-rate-limit": "^8.2.1",
+    "winston": "^3.19.0",
+    "yt-dlp-wrap": "^2.3.12"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "supertest": "^7.2.2"
   }
 }

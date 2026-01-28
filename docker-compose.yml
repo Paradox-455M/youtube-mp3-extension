@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  youtube-converter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: youtube-mp3-converter
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - LOG_LEVEL=info
+      - MAX_FILE_SIZE=104857600
+      - FILE_CLEANUP_TIME=3600000
+      - RATE_LIMIT_WINDOW_MS=900000
+      - RATE_LIMIT_MAX_REQUESTS=10
+    volumes:
+      - ./backend/temp:/app/temp
+      - ./backend/logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:4000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s

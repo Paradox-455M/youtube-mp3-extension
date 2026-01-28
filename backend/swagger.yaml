@@ -1,0 +1,158 @@
+openapi: 3.0.0
+info:
+  title: YouTube to MP3 Converter API
+  description: API for converting YouTube videos to MP3 format
+  version: 1.0.0
+servers:
+  - url: http://localhost:4000
+    description: Local development server
+
+paths:
+  /convert:
+    post:
+      summary: Convert YouTube video to MP3
+      tags:
+        - Conversion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  example: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+                audioQuality:
+                  type: string
+                  default: "0"
+                  description: Audio quality (0=best, or bitrate like 128K, 192K, 256K, 320K)
+                  example: "0"
+                audioFormat:
+                  type: string
+                  enum: [mp3, m4a, opus, wav, flac]
+                  default: mp3
+                  example: mp3
+      responses:
+        '200':
+          description: Conversion started successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  conversionId:
+                    type: string
+                    example: conv_1234567890_abc123
+                  title:
+                    type: string
+                    example: Video Title
+                  downloadUrl:
+                    type: string
+                    format: uri
+                  statusUrl:
+                    type: string
+                    format: uri
+        '400':
+          description: Bad request (invalid URL or validation error)
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+
+  /status/{conversionId}:
+    get:
+      summary: Get conversion status
+      tags:
+        - Conversion
+      parameters:
+        - name: conversionId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: conv_1234567890_abc123
+      responses:
+        '200':
+          description: Conversion status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  conversionId:
+                    type: string
+                  status:
+                    type: string
+                    enum: [processing, completed, failed]
+                  progress:
+                    type: number
+                    minimum: 0
+                    maximum: 100
+                  fileName:
+                    type: string
+                  downloadUrl:
+                    type: string
+                    format: uri
+                  error:
+                    type: string
+        '404':
+          description: Conversion not found
+
+  /download/{filename}:
+    get:
+      summary: Download converted file
+      tags:
+        - Download
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+          example: video-title-1234567890.mp3
+      responses:
+        '200':
+          description: File download
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: File not found
+        '429':
+          description: Rate limit exceeded
+
+  /health:
+    get:
+      summary: Health check
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  ffmpeg:
+                    type: string
+                    example: available
+                  ffmpegPath:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+                  uptime:
+                    type: number
